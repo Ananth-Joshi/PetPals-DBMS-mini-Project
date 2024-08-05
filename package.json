@@ -9,18 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/cookie": "^0.6.0",
+    "@types/jsonwebtoken": "^9.0.6",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0",
+    "mysql2-promise": "^0.1.4",
+    "net": "^1.0.2",
+    "next": "14.2.5",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "react-icons": "^5.2.1",
+    "tls": "^0.0.1"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.5"
+    "typescript": "^5"
   }
 }
