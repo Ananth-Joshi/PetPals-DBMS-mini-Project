@@ -39,6 +39,16 @@ function CenterTable() {
             }
           </tbody>
         </table>
+        <div className='text-white text-xl font-bold my-2'>ADD CENTER</div>
+
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
+            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Location" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Contact Info" className="border rounded p-2 flex-1" required />
+            <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD CENTER</button>
+        </form>
+        
+
     </div>
   )
 }

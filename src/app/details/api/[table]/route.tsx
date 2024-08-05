@@ -8,30 +8,47 @@ const dbConfig = {
     user: 'root', // Your MySQL username
     password: '', // Your MySQL password
     database: 'petmanagement', // Your MySQL database name
-    dateStrings:true,
-    port:3307
+    dateStrings: true,
+    port: 3307
 };
 
 export async function GET(request: Request, { params }: { params: { table: string } }) {
-    const { table } = params; // Get the table name from the URL parameters
-    console.log(table)
+    const { table } = params;
+    console.log(table);
     if (!table) {
         return NextResponse.json({ error: 'Table name is required' }, { status: 400 });
     }
     try {
-        // Create a connection to the database
         const connection = await mysql.createConnection(dbConfig);
-
-        // Fetch data from the specified table
         const [rows] = await connection.execute(`SELECT * FROM ${table}`);
-
-        // Close the connection
         await connection.end();
-
-        // Return the fetched data
         return NextResponse.json(rows);
     } catch (error) {
         console.error('Database error:', error);
         return NextResponse.json({ error: 'Error fetching data from the database' }, { status: 500 });
+    }
+}
+
+export async function POST(request: Request, { params }: { params: { table: string } }) {
+    const { table } = params;
+    if (!table) {
+        return NextResponse.json({ error: 'Table name is required' }, { status: 400 });
+    }
+
+    try {
+        const connection = await mysql.createConnection(dbConfig);
+        const body = await request.json();
+        
+        // Constructing the SQL query dynamically
+        const columns = Object.keys(body).join(', ');
+        const placeholders = Object.keys(body).map(() => '?').join(', ');
+        const values = Object.values(body);
+        const query = `INSERT INTO ${table} (${columns}) VALUES (${placeholders})`;
+        await connection.execute(query, values);
+        await connection.end();
+        return NextResponse.json({ message: 'Data inserted successfully' }, { status: 201 });
+    } catch (error) {
+        console.error('Database error:', error);
+        return NextResponse.json({ error: 'Error inserting data into the database' }, { status: 500 });
     }
 }

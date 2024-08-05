@@ -41,6 +41,13 @@ function AllocationTable() {
                 }
             </tbody>
         </table>
+        <div className='text-white text-xl font-bold my-2'>ADD ALLOCATION</div>
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
+            <input type="text" placeholder="Allocation Name" className="border rounded p-2 flex-1" required />
+            <input type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
+            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD ALLOCATION</button>
+        </form>
     </div>
   )
 }

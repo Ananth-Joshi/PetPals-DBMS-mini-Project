@@ -66,7 +66,24 @@ function PetTable() {
             }
           </tbody>
         </table>
+        <div className='text-white text-xl font-bold my-2'>ADD PET</div>
       
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
+            <input type="number" placeholder="Pet ID" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Type" className="border rounded p-2 flex-1" required />
+            <input type="number" placeholder="Age" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Vaccination" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Gender" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Location" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Severity" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="Description" className="border rounded p-2 flex-1" required />
+            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input type="text" placeholder="PCARE" className="border rounded p-2 flex-1" required />
+            <input type="number" placeholder="Volunteer ID" className="border rounded p-2 flex-1" />
+            <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD PET</button>
+        </form>
+
     </div>
   )
 }
