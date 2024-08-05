@@ -1,7 +1,7 @@
 'use client'
 import React, { SetStateAction, useEffect, useState } from 'react'
 
-type petType={
+type PetType={
   PET_ID:number,
   NAME:string,
   TYPE:string,
@@ -12,11 +12,11 @@ type petType={
   SEVERITY:string,
   DESCRIPTION:string,
   CID:number,
-  P_CARE:string,
+  PCARE:string,
   V_ID:number
 }
 function PetTable() { 
-  const [data,setData]=useState<Array<petType>>([])
+  const [data,setData]=useState<Array<PetType>>([])
   const fetchData=async()=>{
     const dat=await fetch('/details/api/PET')
     const js=await dat.json()
@@ -27,40 +27,40 @@ function PetTable() {
   },[])
   
   return (
-    <div>
-        <table className='min-w-full divide-y text-center divide-gray-200 dark:divide-neutral-700'>
-          <thead>
+    <div className='mx-4 my-4'>
+        <table className='min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 text-center'>
+          <thead className='bg-gray-900'>
             <tr>
-              <th>PET ID</th>
-              <th>NAME</th>
-              <th>TYPE</th>
-              <th>AGE</th>
-              <th>VACCINATION</th>
-              <th>GENDER</th>
-              <th>LOCATION</th>
-              <th>SEVERITY</th>
-              <th>DESCRIPTION</th>
-              <th>CID</th>
-              <th>PCARE</th>
-              <th>VOL. ID</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">PET ID</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">NAME</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">TYPE</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">AGE</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">VACCINATION</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">GENDER</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">LOCATION</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">SEVERITY</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">DESCRIPTION</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">CID</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">PCARE</th>
+              <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">VOL. ID</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
             {
               data.map((p,index)=>(
-                <tr key={index}>
-                  <td>{p.PET_ID}</td>
-                  <td>{p.NAME}</td>
-                  <td>{p.TYPE}</td>
-                  <td>{p.AGE}</td>
-                  <td>{p.VACCINATION}</td>
-                  <td>{p.GENDER}</td>
-                  <td>{p.LOCATION}</td>
-                  <td>{p.SEVERITY}</td>
-                  <td>{p.DESCRIPTION}</td>
-                  <td>{p.CID}</td>
-                  <td>{p.P_CARE}</td>
-                  <td>{p.V_ID}</td>
+                <tr key={index} className='hover:bg-gray-100 dark:hover:bg-gray-700'>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.PET_ID}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.NAME}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.TYPE}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.AGE}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.VACCINATION}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.GENDER}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.LOCATION}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.SEVERITY}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.DESCRIPTION}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.CID}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.PCARE}</td>
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{p.V_ID}</td>
                 </tr>
               ))
             }

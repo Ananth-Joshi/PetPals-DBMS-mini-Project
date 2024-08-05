@@ -1,8 +1,10 @@
 'use client'
+import AllocationTable from '@/components/Details/AllocationTable'
 import CenterTable from '@/components/Details/CenterTable'
+import DonationTable from '@/components/Details/DonationTable'
 import PetTable from '@/components/Details/PetTable'
 import SelectTable from '@/components/Details/SelectTable'
-import { connectDB } from '@/functions/functions'
+import VolunteersTable from '@/components/Details/VolunteersTable'
 import React, { useState } from 'react'
 
 function page() {
@@ -13,6 +15,11 @@ function page() {
       <SelectTable setTable={setTable}/>
         {(table==='PET')?(<PetTable/>):(<></>)}
         {(table==='CENTER')?(<CenterTable/>):(<></>)}
+        {(table==='ALLOCATION')?(<AllocationTable/>):(<></>)}
+        {(table==='DONATION')?(<DonationTable/>):(<></>)}
+        {(table==='VOLUNTEERS')?(<VolunteersTable/>):(<></>)}
+
+
     </div>
    
   )
