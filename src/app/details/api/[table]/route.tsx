@@ -2,6 +2,7 @@
 
 import { NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
+import { revalidatePath } from 'next/cache';
 
 const dbConfig = {
     host: 'localhost', // Your MySQL host

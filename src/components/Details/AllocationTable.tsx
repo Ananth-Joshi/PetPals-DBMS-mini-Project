@@ -1,6 +1,9 @@
 'use client'
 
-import React, {useEffect, useState } from 'react'
+import { revalidatePath } from 'next/cache'
+import { useRouter } from 'next/navigation'
+import React, {FormEvent, useEffect, useRef, useState } from 'react'
+import JSXStyle from 'styled-jsx/style'
 
 type AllocationType={
     CID:number,
@@ -9,7 +12,9 @@ type AllocationType={
 }
 
 function AllocationTable() {
+    const router=useRouter()
     const [data,setData]=useState<Array<AllocationType>>([])
+    const formRef = useRef<HTMLFormElement | null>(null);
     const fetchData=async()=>{
       const dat=await fetch('/details/api/ALLOCATION')
       const js=await dat.json()
@@ -18,6 +23,30 @@ function AllocationTable() {
     useEffect(()=>{
       fetchData()
     },[])
+
+
+    const handleSubmit=async(e:FormEvent<HTMLFormElement>)=>{
+        e.preventDefault();
+        if(formRef.current){
+            const formData=new FormData(formRef.current)
+            try{
+                const response=await fetch('/details/api/ALLOCATION',{
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body:JSON.stringify({
+                        A_NAME:formData.get('a_name'),
+                        A_AMOUNT:formData.get('a_amount'),
+                        CID:formData.get('cid')
+                    })
+                })
+                await fetchData()
+            }catch(e){
+                console.error('Error adding error'+e)
+            }
+        }
+    }
     
   return (
     <div className='mx-4 my-4'>
@@ -42,10 +71,10 @@ function AllocationTable() {
             </tbody>
         </table>
         <div className='text-white text-xl font-bold my-2'>ADD ALLOCATION</div>
-        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
-            <input type="text" placeholder="Allocation Name" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={formRef} onSubmit={handleSubmit}>
+            <input name='a_name' type="text" placeholder="Allocation Name" className="border rounded p-2 flex-1" required />
+            <input name='a_amount' type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
+            <input name='cid' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD ALLOCATION</button>
         </form>
     </div>
