@@ -63,7 +63,9 @@ To run the PetPals application, follow these steps:
 ![image](https://github.com/user-attachments/assets/aca122ce-db02-4e40-8164-74a77c1819af)
 ![image](https://github.com/user-attachments/assets/b02ad232-b23c-4aa4-b0f3-11c21c9024ee)
 ![image](https://github.com/user-attachments/assets/d6ec26f4-bc46-4e5e-9a26-9a913a298d15)
+![image](https://github.com/user-attachments/assets/09dc130f-b1f8-4ec4-a581-3a241a616607)
 ![image](https://github.com/user-attachments/assets/2b28742c-a7b1-45ce-abdc-c7a1202ade03)
+
 
 
 
