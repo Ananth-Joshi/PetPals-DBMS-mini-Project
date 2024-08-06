@@ -54,6 +54,6 @@ Use the commands.sql file if you need some default values and use this command t
     ```
 
 ## Database Schema Diagram
-![Database schema image](file:///home/ananthj/Downloads/schema.png)
+![schema](https://github.com/user-attachments/assets/f6468945-c484-4b65-97ac-61d4df90a05f)
 
 
