@@ -3,15 +3,7 @@
 import { NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
 import { revalidatePath } from 'next/cache';
-
-const dbConfig = {
-    host: 'localhost', // Your MySQL host
-    user: 'root', // Your MySQL username
-    password: '', // Your MySQL password
-    database: 'petmanagement', // Your MySQL database name
-    dateStrings: true,
-    port: 3307
-};
+import { dbconfig } from '@/config/dbconfig';
 
 export async function GET(request: Request, { params }: { params: { table: string } }) {
     const { table } = params;
@@ -20,7 +12,7 @@ export async function GET(request: Request, { params }: { params: { table: strin
         return NextResponse.json({ error: 'Table name is required' }, { status: 400 });
     }
     try {
-        const connection = await mysql.createConnection(dbConfig);
+        const connection = await mysql.createConnection(dbconfig);
         const [rows] = await connection.execute(`SELECT * FROM ${table}`);
         await connection.end();
         return NextResponse.json(rows);
@@ -37,7 +29,7 @@ export async function POST(request: Request, { params }: { params: { table: stri
     }
 
     try {
-        const connection = await mysql.createConnection(dbConfig);
+        const connection = await mysql.createConnection(dbconfig);
         const body = await request.json();
         
         // Constructing the SQL query dynamically

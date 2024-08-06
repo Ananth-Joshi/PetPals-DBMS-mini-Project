@@ -1,14 +1,8 @@
+import { dbconfig } from '@/config/dbconfig';
 import mysql from 'mysql2/promise'
 export const connectDB=async()=>{
     try{
-    const connection=await mysql.createConnection({
-        host:'localhost',
-        user:'root',
-        password:'',
-        database:'petmanagement',
-        port:3307,
-        dateStrings:true
-    })
+    const connection=await mysql.createConnection(dbconfig)
     return connection;
 }catch(e){
     console.log('Error connecting to Database'+e)

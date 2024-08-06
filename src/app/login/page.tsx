@@ -1,9 +1,8 @@
 "use client"
 import React from 'react'
-import { CgPassword } from 'react-icons/cg'
-
+import { useRouter } from 'next/navigation'
 function page() {
-
+  const router=useRouter()
   const handleSubmit=async(event:React.FormEvent<HTMLFormElement>)=>{
     event.preventDefault()
 
@@ -15,7 +14,9 @@ function page() {
             password:event.currentTarget.password.value
           })
       })
-      alert(JSON.stringify(response))
+      const js=await response.json()
+      alert(JSON.stringify(js.message))
+      router.refresh()
     }catch(error){
       console.log(error)
 
