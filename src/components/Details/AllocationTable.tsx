@@ -73,7 +73,7 @@ function AllocationTable({login}:{login:userType|false}) {
         <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={AllocationRef} onSubmit={handleSubmitAllocation}>
             <input name='A_NAME' type="text" placeholder="Allocation Name" className="border rounded p-2 flex-1" required />
             <input name='A_AMOUNT' type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
-            <input name='CID' value={login.CID} readOnly type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input name='CID' value={login.CID} readOnly type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />{/* Center ID fixed to logged in users center */}
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD ALLOCATION</button>
         </form>}
     </div>

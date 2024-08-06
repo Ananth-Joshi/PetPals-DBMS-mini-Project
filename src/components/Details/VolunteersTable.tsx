@@ -67,6 +67,21 @@ function VolunteersTable({login}:{login:userType|false}) {
         }
     };
 
+    const deleteVolunteer=async(value:number)=>{
+        try{
+          await fetch('/details/api/VOLUNTEERS',{
+            method:'DELETE',
+            body:JSON.stringify({
+              id:'V_ID',
+              value:value
+            })
+          });
+          fetchData();
+        }catch(e){
+          console.error('Error deleting Volunteer:'+e)
+        }
+      }
+      
   return (
     <div className='mx-4 my-4'>
         <table className='min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 text-center'>
@@ -83,6 +98,7 @@ function VolunteersTable({login}:{login:userType|false}) {
                     <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">AVAILABLE DATE</th>
                     <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">AVAILABLE TIME</th>
                     <th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">CENTER ID</th>
+                    {login&&<th className="py-3 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">DELETE</th>}{/* Delete feature only for logged in center admins */}
                 </tr>
             </thead>
             <tbody className='bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
@@ -100,6 +116,11 @@ function VolunteersTable({login}:{login:userType|false}) {
                             <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{volunteer.AVAILABLE_DATE}</td>
                             <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{volunteer.AVAILABLE_TIME}</td>
                             <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{volunteer.CID}</td>
+                            {login &&
+                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <button className="bg-red-500 disabled:bg-red-300 text-white rounded p-2 flex-none" onDoubleClick={async()=>{await deleteVolunteer(volunteer.V_ID)}} disabled={login.CID!==volunteer.CID}>DELETE</button> {/*DELETE ONLY IF PET belongs to logged in users center*/}
+                                </td>
+                            }
                         </tr>
                     ))
                 }
@@ -119,7 +140,7 @@ function VolunteersTable({login}:{login:userType|false}) {
                 <input name='AVAILABLE_STATUS' type="text" placeholder="Available Status" className="border rounded p-2 flex-1" required />
                 <input name='AVAILABLE_DATE' type="date" placeholder="Available Date" className="border rounded p-2 flex-1" required />
                 <input name='AVAILABLE_TIME' type="time" placeholder="Available Time" className="border rounded p-2 flex-1" required />
-                <input value={login.CID} readOnly name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+                <input value={login.CID} readOnly name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />{/* Center ID fixed to logged in users center */}
                 <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD VOLUNTEER</button>
             </form>
         }

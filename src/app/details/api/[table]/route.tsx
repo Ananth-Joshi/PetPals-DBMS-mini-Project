@@ -2,7 +2,6 @@
 
 import { NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
-import { revalidatePath } from 'next/cache';
 import { dbconfig } from '@/config/dbconfig';
 
 export async function GET(request: Request, { params }: { params: { table: string } }) {
@@ -43,5 +42,29 @@ export async function POST(request: Request, { params }: { params: { table: stri
     } catch (error) {
         console.error('Database error:', error);
         return NextResponse.json({ error: 'Error inserting data into the database' }, { status: 500 });
+    }
+}
+
+
+
+export async function DELETE(request: Request, { params }: { params: { table: string } }) {
+    const { table } = params;
+    if (!table) {
+        return NextResponse.json({ error: 'Table name is required' }, { status: 400 });
+    }
+    const { id, value } = await request.json();
+    if (!id || value === undefined) {
+        return NextResponse.json({ error: 'Primary key and value are required' }, { status: 400 });
+    }
+    try {
+        const connection = await mysql.createConnection(dbconfig);
+        const query = `DELETE FROM ${table} WHERE ${id}= ${value}`;
+        await connection.execute(query);
+        await connection.end();
+        
+        return NextResponse.json({ message: 'Data deleted successfully' }, { status: 200 });
+    } catch (error) {
+        console.error('Database error:', error);
+        return NextResponse.json({ error: 'Error deleting data from the database' }, { status: 500 });
     }
 }

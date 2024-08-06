@@ -8,16 +8,16 @@ USE petmanagement;
 CREATE TABLE CENTER (CID INT PRIMARY KEY, LOCATION VARCHAR(255),CONTACT_INFO VARCHAR(255));
 CREATE TABLE ALLOCATION ( A_NAME VARCHAR(255), A_AMOUNT INT,CID INT, FOREIGN KEY (CID) REFERENCES CENTER(CID) ON DELETE CASCADE);/*Delete allocation if center is deleted*/
 CREATE TABLE DONATION (DONATION_ID INT, NAME VARCHAR(255),PH_NO VARCHAR(255),PAYMENT_INFO VARCHAR(255),AMOUNT INT, CID INT REFERENCES CENTER(CID) ON DELETE SET NULL);
-CREATE TABLE VOLUNTEERS (V_ID INT, NAME VARCHAR(255),AGE INT, PHONE VARCHAR(255),ADDRESS VARCHAR(255),EXPERTISE VARCHAR(255),EMPLOYMENT VARCHAR(255),AVAILABLE_STATUS VARCHAR(255),AVAILABLE_DATE DATE,AVAILABLE_TIME TIME,CID INT,FOREIGN KEY (CID) REFERENCES CENTER(CID) ON DELETE CASCADE);/*Delete volunteer if center is deleted*/
-CREATE TABLE PET (PET_ID INT,NAME VARCHAR(255),TYPE VARCHAR(255),AGE INT,VACCINATION VARCHAR(255),GENDER VARCHAR(255),LOCATION VARCHAR(255),SEVERITY VARCHAR(255),DESCRIPTION VARCHAR(255),CID INT REFERENCES CENTER(CID) ON DELETE CASCADE,PCARE VARCHAR(255),V_ID INT REFERENCES VOLUNTEERS(V_ID) ON DELETE SET NULL );/*Delete pet if center is deleted but set V_ID to NULL if volunteer is deleted*/
+CREATE TABLE VOLUNTEERS (V_ID INT PRIMARY KEY, NAME VARCHAR(255),AGE INT, PHONE VARCHAR(255),ADDRESS VARCHAR(255),EXPERTISE VARCHAR(255),EMPLOYMENT VARCHAR(255),AVAILABLE_STATUS VARCHAR(255),AVAILABLE_DATE DATE,AVAILABLE_TIME TIME,CID INT,FOREIGN KEY (CID) REFERENCES CENTER(CID) ON DELETE CASCADE);/*Delete volunteer if center is deleted*/
+CREATE TABLE PET (PET_ID INT PRIMARY KEY,NAME VARCHAR(255),TYPE VARCHAR(255),AGE INT,VACCINATION VARCHAR(255),GENDER VARCHAR(255),LOCATION VARCHAR(255),SEVERITY VARCHAR(255),DESCRIPTION VARCHAR(255),CID INT REFERENCES CENTER(CID) ON DELETE CASCADE,PCARE VARCHAR(255),V_ID INT REFERENCES VOLUNTEERS(V_ID) ON DELETE SET NULL );/*Delete pet if center is deleted but set V_ID to NULL if volunteer is deleted*/
 CREATE TABLE CENTER_ADMIN(CID INT PRIMARY KEY REFERENCES CENTER(CID),EMAIL VARCHAR(30),PASSWORD VARCHAR(30));
 
 /*Insert into center table*/
-INSERT INTO CENTER VALUES (1, 'Mangalore Animal Shelter', 'shelter@mangalore.org');
-INSERT INTO CENTER VALUES (2, 'Bangalore Animal Shelter', 'shelter@bangalore.org');
-INSERT INTO CENTER VALUES (3, 'Pune Animal Shelter', 'shelter@pune.org');
-INSERT INTO CENTER VALUES (4, 'Mysore Animal Shelter', 'shelter@mysore.org');
-INSERT INTO CENTER VALUES (5, 'Hyderabad Animal Shelter', 'shelter@hyderabad.org');
+INSERT INTO CENTER VALUES (1, 'Mangalore Animal Shelter', 'shelter@mangalore.org');                 /*Public e-mail of center different from their login e-mail*/
+INSERT INTO CENTER VALUES (2, 'Bangalore Animal Shelter', 'shelter@bangalore.org');                 /*Public e-mail of center different from their login e-mail*/
+INSERT INTO CENTER VALUES (3, 'Pune Animal Shelter', 'shelter@pune.org');                           /*Public e-mail of center different from their login e-mail*/
+INSERT INTO CENTER VALUES (4, 'Mysore Animal Shelter', 'shelter@mysore.org');                       /*Public e-mail of center different from their login e-mail*/
+INSERT INTO CENTER VALUES (5, 'Hyderabad Animal Shelter', 'shelter@hyderabad.org');                 /*Public e-mail of center different from their login e-mail*/
 
 /* Insert into allocation table*/
 INSERT INTO ALLOCATION VALUES ('Food', 50, 1);
@@ -73,11 +73,11 @@ INSERT INTO PET VALUES (10, 'Spark', 'Fish', 90, 'Up-to-date', 'Male', 'Mangalor
 
 /*INsert into ADMIN table*/
 
-INSERT INTO CENTER_ADMIN VALUES(1,"abc123@gmail.com","123");
-INSERT INTO CENTER_ADMIN VALUES(2,"def123@gmail.com","123");
-INSERT INTO CENTER_ADMIN VALUES(3,"ghi123@gmail.com","123");
-INSERT INTO CENTER_ADMIN VALUES(4,"jkl123@gmail.com","123");
-INSERT INTO CENTER_ADMIN VALUES(5,"mno123@gmail.com","123");
+INSERT INTO CENTER_ADMIN VALUES(1,"abc123@gmail.com","$2a$10$THkSZM32lU7mktIrOJgJNehqsWVIqDnhp9Z.pJK03nHq34h87x922"); /* password is bcrypt hash for '123'*/
+INSERT INTO CENTER_ADMIN VALUES(2,"def123@gmail.com","$2a$10$THkSZM32lU7mktIrOJgJNehqsWVIqDnhp9Z.pJK03nHq34h87x922"); /* password is bcrypt hash for '123'*/
+INSERT INTO CENTER_ADMIN VALUES(3,"ghi123@gmail.com","$2a$10$THkSZM32lU7mktIrOJgJNehqsWVIqDnhp9Z.pJK03nHq34h87x922"); /* password is bcrypt hash for '123'*/
+INSERT INTO CENTER_ADMIN VALUES(4,"jkl123@gmail.com","$2a$10$THkSZM32lU7mktIrOJgJNehqsWVIqDnhp9Z.pJK03nHq34h87x922"); /* password is bcrypt hash for '123'*/
+INSERT INTO CENTER_ADMIN VALUES(5,"mno123@gmail.com","$2a$10$THkSZM32lU7mktIrOJgJNehqsWVIqDnhp9Z.pJK03nHq34h87x922"); /* password is bcrypt hash for '123'*/
 
 
 /*Show Tables(For Testing)*/

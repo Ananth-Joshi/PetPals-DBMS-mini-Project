@@ -93,7 +93,7 @@ function DonationTable({login}:{login:userType|false}) {
             <input name='PH_NO' type="text" placeholder="Phone Number" className="border rounded p-2 flex-1" required />
             <input name='PAYMENT_INFO' type="text" placeholder="Payment Info" className="border rounded p-2 flex-1" required />
             <input name='AMOUNT' type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
-            <input name='CID' value={login.CID} readOnly type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input name='CID' value={login.CID} readOnly type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />{/* Center ID fixed to logged in users center */}
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD DONATION</button>
         </form>
 }
