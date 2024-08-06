@@ -1,8 +1,14 @@
 'use client'
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+type userType={
+    email:string,
+    CID:string
+}
 const UserProfile= () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [user,setUser]=useState<userType>({email:'',CID:''})
     const router=useRouter()
     // Function to toggle dropdown visibility
     const toggleDropdown = () => {
@@ -13,11 +19,23 @@ const UserProfile= () => {
         try{
             await fetch('/api/auth/logout',{method:'POST'})
             router.refresh()
+            router.push('/')
+            
         }catch(e){
             console.error('Error logging out')
         }
     }
 
+    const getUser=async()=>{
+        const data=await fetch('/api/authverify')
+        const js=await data.json()
+        console.log(js)
+        setUser({email:js.user.email,CID:js.user.CID})
+    }
+
+    useEffect(()=>{
+        getUser();
+    },[])
     return (
         <div className="relative inline-block text-left">
             <div>
@@ -37,8 +55,8 @@ const UserProfile= () => {
                 <div className="absolute right-0 z-10 mt-2 w-48 bg-white rounded-md shadow-lg">
                     <div className="py-2">
                         <div className="px-4 py-2 text-sm text-gray-700">
-                            <p>CID: 12345</p>
-                            <p>Email: user@example.com</p>
+                            <p>CID: {user.CID}</p>
+                            <p>Email: {user.email}</p>
                         </div>
                         <div className="border-t border-gray-200"></div>
                         <button

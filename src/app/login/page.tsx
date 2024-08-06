@@ -17,6 +17,8 @@ function page() {
       const js=await response.json()
       alert(JSON.stringify(js.message))
       router.refresh()
+      router.push('/details')
+      
     }catch(error){
       console.log(error)
 

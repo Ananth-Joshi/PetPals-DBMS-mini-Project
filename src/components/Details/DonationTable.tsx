@@ -1,4 +1,5 @@
 'use client'
+import { userType } from '@/app/details/page'
 import React, {FormEvent, useEffect, useRef, useState } from 'react'
 
 type DonationType={
@@ -11,7 +12,7 @@ type DonationType={
 }
 
 
-function DonationTable() {
+function DonationTable({login}:{login:userType|false}) {
     const [data,setData]=useState<Array<DonationType>>([])
   const donationRef=useRef<HTMLFormElement|null>(null)
 
@@ -83,18 +84,19 @@ function DonationTable() {
             }
           </tbody>
         </table>
-        <div className='text-white text-xl font-bold my-2'>ADD DONATION</div>
 
-        <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={donationRef} onSubmit={handleSubmitDonation}>
+        {login&&<div className='text-white text-xl font-bold my-2'>ADD DONATION</div>}
+        {login &&
+          <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={donationRef} onSubmit={handleSubmitDonation}>
             <input name='DONATION_ID' type="number" placeholder="Donation ID" className="border rounded p-2 flex-1" required />
             <input name='NAME' type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
             <input name='PH_NO' type="text" placeholder="Phone Number" className="border rounded p-2 flex-1" required />
             <input name='PAYMENT_INFO' type="text" placeholder="Payment Info" className="border rounded p-2 flex-1" required />
             <input name='AMOUNT' type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
-            <input name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input name='CID' value={login.CID} readOnly type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD DONATION</button>
         </form>
-
+}
       
     </div>
   )

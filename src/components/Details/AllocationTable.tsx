@@ -1,9 +1,8 @@
 'use client'
 
-import { revalidatePath } from 'next/cache'
-import { useRouter } from 'next/navigation'
+import { userType } from '@/app/details/page'
 import React, {FormEvent, useEffect, useRef, useState } from 'react'
-import JSXStyle from 'styled-jsx/style'
+
 
 type AllocationType={
     CID:number,
@@ -11,8 +10,7 @@ type AllocationType={
     A_AMOUNT:number
 }
 
-function AllocationTable() {
-    const router=useRouter()
+function AllocationTable({login}:{login:userType|false}) {
     const [data,setData]=useState<Array<AllocationType>>([])
     const AllocationRef = useRef<HTMLFormElement | null>(null);
     const fetchData=async()=>{
@@ -70,13 +68,14 @@ function AllocationTable() {
                 }
             </tbody>
         </table>
-        <div className='text-white text-xl font-bold my-2'>ADD ALLOCATION</div>
+        {login&&<div className='text-white text-xl font-bold my-2'>ADD ALLOCATION</div>}
+        {login && 
         <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={AllocationRef} onSubmit={handleSubmitAllocation}>
             <input name='A_NAME' type="text" placeholder="Allocation Name" className="border rounded p-2 flex-1" required />
             <input name='A_AMOUNT' type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
-            <input name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input name='CID' value={login.CID} readOnly type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD ALLOCATION</button>
-        </form>
+        </form>}
     </div>
   )
 }

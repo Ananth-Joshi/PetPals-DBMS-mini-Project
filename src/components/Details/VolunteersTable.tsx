@@ -1,4 +1,5 @@
 'use client'
+import { userType } from '@/app/details/page';
 import React, { FormEvent, SetStateAction, useEffect, useRef, useState } from 'react'
 
 type Volunteer ={
@@ -16,7 +17,7 @@ type Volunteer ={
 }
 
 
-function VolunteersTable() {
+function VolunteersTable({login}:{login:userType|false}) {
 
     const [data,setData]=useState<Array<Volunteer>>([])
     const volunteerRef=useRef<HTMLFormElement|null>(null)
@@ -104,22 +105,24 @@ function VolunteersTable() {
                 }
             </tbody>
         </table>
-        <div className='text-white text-xl font-bold my-2'>ADD VOLUNTEER</div>
 
-        <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={volunteerRef} onSubmit={handleSubmitVolunteer}>
-            <input name='V_ID' type="number" placeholder="Volunteer ID" className="border rounded p-2 flex-1" required />
-            <input name='NAME' type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
-            <input name='AGE' type="number" placeholder="Age" className="border rounded p-2 flex-1" required />
-            <input name='PHONE' type="text" placeholder="Phone" className="border rounded p-2 flex-1" required />
-            <input name='ADDRESS' type="text" placeholder="Address" className="border rounded p-2 flex-1" required />
-            <input name='EXPERTISE' type="text" placeholder="Expertise" className="border rounded p-2 flex-1" required />
-            <input name='EMPLOYMENT' type="text" placeholder="Employment" className="border rounded p-2 flex-1" required />
-            <input name='AVAILABLE_STATUS' type="text" placeholder="Available Status" className="border rounded p-2 flex-1" required />
-            <input name='AVAILABLE_DATE' type="date" placeholder="Available Date" className="border rounded p-2 flex-1" required />
-            <input name='AVAILABLE_TIME' type="time" placeholder="Available Time" className="border rounded p-2 flex-1" required />
-            <input name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
-            <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD VOLUNTEER</button>
-        </form>
+        {login&&<div className='text-white text-xl font-bold my-2'>ADD VOLUNTEER</div>}
+        {login &&
+            <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={volunteerRef} onSubmit={handleSubmitVolunteer}>
+                <input name='V_ID' type="number" placeholder="Volunteer ID" className="border rounded p-2 flex-1" required />
+                <input name='NAME' type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
+                <input name='AGE' type="number" placeholder="Age" className="border rounded p-2 flex-1" required />
+                <input name='PHONE' type="text" placeholder="Phone" className="border rounded p-2 flex-1" required />
+                <input name='ADDRESS' type="text" placeholder="Address" className="border rounded p-2 flex-1" required />
+                <input name='EXPERTISE' type="text" placeholder="Expertise" className="border rounded p-2 flex-1" required />
+                <input name='EMPLOYMENT' type="text" placeholder="Employment" className="border rounded p-2 flex-1" required />
+                <input name='AVAILABLE_STATUS' type="text" placeholder="Available Status" className="border rounded p-2 flex-1" required />
+                <input name='AVAILABLE_DATE' type="date" placeholder="Available Date" className="border rounded p-2 flex-1" required />
+                <input name='AVAILABLE_TIME' type="time" placeholder="Available Time" className="border rounded p-2 flex-1" required />
+                <input value={login.CID} readOnly name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+                <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD VOLUNTEER</button>
+            </form>
+        }
     </div>
   )
 }

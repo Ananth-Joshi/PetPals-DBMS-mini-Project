@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
     try {
         const decoded = jwt.verify(token, SECRET_KEY) as unknown;
         const user = decoded as DecodedToken;
+        console.log(user)
         return NextResponse.json({ loggedIn: true, user }, { status: 200 });
     } catch (error) {
         console.error('Token verification failed:', error); // Log the error for debugging

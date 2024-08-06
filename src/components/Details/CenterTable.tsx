@@ -1,4 +1,5 @@
 'use client'
+import { userType } from '@/app/details/page'
 import React, {FormEvent, useEffect, useRef, useState } from 'react'
 
 type CenterType={
@@ -6,7 +7,7 @@ type CenterType={
   LOCATION:string,
   CONTACT_INFO:string
 }
-function CenterTable() { 
+function CenterTable({login}:{login:userType|false}) { 
   const [data,setData]=useState<Array<CenterType>>([])
   const centerRef=useRef<HTMLFormElement|null>(null)
   const fetchData=async()=>{
@@ -68,14 +69,16 @@ function CenterTable() {
             }
           </tbody>
         </table>
-        <div className='text-white text-xl font-bold my-2'>ADD CENTER</div>
 
+       {login&&<div className='text-white text-xl font-bold my-2'>ADD CENTER</div>}
+       {login && 
         <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={centerRef} onSubmit={handleSubmitCenter}>
             <input name="CID" type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
             <input name="LOCATION" type="text" placeholder="Location" className="border rounded p-2 flex-1" required />
             <input name="CONTACT_INFO" type="text" placeholder="Contact Info" className="border rounded p-2 flex-1" required />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD CENTER</button>
         </form>
+        }
         
 
     </div>
