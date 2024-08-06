@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState } from 'react'
+import React, {FormEvent, useEffect, useRef, useState } from 'react'
 
 type DonationType={
     DONATION_ID:number,
@@ -13,6 +13,8 @@ type DonationType={
 
 function DonationTable() {
     const [data,setData]=useState<Array<DonationType>>([])
+  const donationRef=useRef<HTMLFormElement|null>(null)
+
     const fetchData=async()=>{
       const dat=await fetch('/details/api/DONATION')
       const js=await dat.json()
@@ -21,6 +23,37 @@ function DonationTable() {
     useEffect(()=>{
       fetchData()
     },[])
+
+    const handleSubmitDonation = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (donationRef.current) {
+          const formData = new FormData(donationRef.current);
+          try {
+              const response = await fetch('/details/api/DONATION', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                      DONATION_ID: formData.get('DONATION_ID'),
+                      NAME: formData.get('NAME'),
+                      PH_NO: formData.get('PH_NO'),
+                      PAYMENT_INFO: formData.get('PAYMENT_INFO'),
+                      AMOUNT: formData.get('AMOUNT'),
+                      CID: formData.get('CID'),
+                  }),
+              });
+  
+              if (!response.ok) {
+                  throw new Error('Failed to add entry');
+              }
+  
+              await fetchData(); // Refresh data after submission
+          } catch (error) {
+              console.error('Error adding donation:', error);
+          }
+      }
+  };
     
   return (
     <div className='mx-4 my-4'>
@@ -52,13 +85,13 @@ function DonationTable() {
         </table>
         <div className='text-white text-xl font-bold my-2'>ADD DONATION</div>
 
-        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
-            <input type="number" placeholder="Donation ID" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Phone Number" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Payment Info" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={donationRef} onSubmit={handleSubmitDonation}>
+            <input name='DONATION_ID' type="number" placeholder="Donation ID" className="border rounded p-2 flex-1" required />
+            <input name='NAME' type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
+            <input name='PH_NO' type="text" placeholder="Phone Number" className="border rounded p-2 flex-1" required />
+            <input name='PAYMENT_INFO' type="text" placeholder="Payment Info" className="border rounded p-2 flex-1" required />
+            <input name='AMOUNT' type="number" placeholder="Amount" className="border rounded p-2 flex-1" required />
+            <input name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD DONATION</button>
         </form>
 

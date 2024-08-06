@@ -1,5 +1,5 @@
 'use client'
-import React, { SetStateAction, useEffect, useState } from 'react'
+import React, { FormEvent, SetStateAction, useEffect, useRef, useState } from 'react'
 
 type Volunteer ={
     V_ID: number;           
@@ -19,6 +19,8 @@ type Volunteer ={
 function VolunteersTable() {
 
     const [data,setData]=useState<Array<Volunteer>>([])
+    const volunteerRef=useRef<HTMLFormElement|null>(null)
+
     const fetchData=async()=>{
       const dat=await fetch('/details/api/VOLUNTEERS')
       const js=await dat.json()
@@ -27,6 +29,42 @@ function VolunteersTable() {
     useEffect(()=>{
       fetchData()
     },[])
+
+    const handleSubmitVolunteer = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (volunteerRef.current) {
+            const formData = new FormData(volunteerRef.current);
+            try {
+                const response = await fetch('/details/api/VOLUNTEERS', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        V_ID: formData.get('V_ID'),
+                        NAME: formData.get('NAME'),
+                        AGE: formData.get('AGE'),
+                        PHONE: formData.get('PHONE'),
+                        ADDRESS: formData.get('ADDRESS'),
+                        EXPERTISE: formData.get('EXPERTISE'),
+                        EMPLOYMENT: formData.get('EMPLOYMENT'),
+                        AVAILABLE_STATUS: formData.get('AVAILABLE_STATUS'),
+                        AVAILABLE_DATE: formData.get('AVAILABLE_DATE'),
+                        AVAILABLE_TIME: formData.get('AVAILABLE_TIME'),
+                        CID: formData.get('CID'),
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to add entry');
+                }
+    
+                await fetchData(); // Refresh data after submission
+            } catch (error) {
+                console.error('Error adding volunteer:', error);
+            }
+        }
+    };
 
   return (
     <div className='mx-4 my-4'>
@@ -68,18 +106,18 @@ function VolunteersTable() {
         </table>
         <div className='text-white text-xl font-bold my-2'>ADD VOLUNTEER</div>
 
-        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
-            <input type="number" placeholder="Volunteer ID" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Age" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Phone" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Address" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Expertise" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Employment" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Available Status" className="border rounded p-2 flex-1" required />
-            <input type="date" placeholder="Available Date" className="border rounded p-2 flex-1" required />
-            <input type="time" placeholder="Available Time" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={volunteerRef} onSubmit={handleSubmitVolunteer}>
+            <input name='V_ID' type="number" placeholder="Volunteer ID" className="border rounded p-2 flex-1" required />
+            <input name='NAME' type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
+            <input name='AGE' type="number" placeholder="Age" className="border rounded p-2 flex-1" required />
+            <input name='PHONE' type="text" placeholder="Phone" className="border rounded p-2 flex-1" required />
+            <input name='ADDRESS' type="text" placeholder="Address" className="border rounded p-2 flex-1" required />
+            <input name='EXPERTISE' type="text" placeholder="Expertise" className="border rounded p-2 flex-1" required />
+            <input name='EMPLOYMENT' type="text" placeholder="Employment" className="border rounded p-2 flex-1" required />
+            <input name='AVAILABLE_STATUS' type="text" placeholder="Available Status" className="border rounded p-2 flex-1" required />
+            <input name='AVAILABLE_DATE' type="date" placeholder="Available Date" className="border rounded p-2 flex-1" required />
+            <input name='AVAILABLE_TIME' type="time" placeholder="Available Time" className="border rounded p-2 flex-1" required />
+            <input name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD VOLUNTEER</button>
         </form>
     </div>

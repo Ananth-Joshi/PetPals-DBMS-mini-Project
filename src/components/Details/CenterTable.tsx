@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState } from 'react'
+import React, {FormEvent, useEffect, useRef, useState } from 'react'
 
 type CenterType={
   CID:number,
@@ -8,6 +8,7 @@ type CenterType={
 }
 function CenterTable() { 
   const [data,setData]=useState<Array<CenterType>>([])
+  const centerRef=useRef<HTMLFormElement|null>(null)
   const fetchData=async()=>{
     const dat=await fetch('/details/api/CENTER')
     const js=await dat.json()
@@ -16,6 +17,34 @@ function CenterTable() {
   useEffect(()=>{
     fetchData()
   },[])
+
+  const handleSubmitCenter = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (centerRef.current) {
+        const formData = new FormData(centerRef.current);
+        try {
+            const response = await fetch('/details/api/CENTER', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    CID: formData.get('CID'),
+                    LOCATION: formData.get('LOCATION'),
+                    CONTACT_INFO: formData.get('CONTACT_INFO'),
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add entry');
+            }
+
+            await fetchData(); // Refresh data after submission
+        } catch (error) {
+            console.error('Error adding center:', error);
+        }
+    }
+};
   
   return (
     <div className='mx-4 my-4'>
@@ -41,10 +70,10 @@ function CenterTable() {
         </table>
         <div className='text-white text-xl font-bold my-2'>ADD CENTER</div>
 
-        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
-            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Location" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Contact Info" className="border rounded p-2 flex-1" required />
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={centerRef} onSubmit={handleSubmitCenter}>
+            <input name="CID" type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input name="LOCATION" type="text" placeholder="Location" className="border rounded p-2 flex-1" required />
+            <input name="CONTACT_INFO" type="text" placeholder="Contact Info" className="border rounded p-2 flex-1" required />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD CENTER</button>
         </form>
         

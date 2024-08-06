@@ -1,5 +1,5 @@
 'use client'
-import React, { SetStateAction, useEffect, useState } from 'react'
+import React, { FormEvent, SetStateAction, useEffect, useRef, useState } from 'react'
 
 type PetType={
   PET_ID:number,
@@ -17,6 +17,7 @@ type PetType={
 }
 function PetTable() { 
   const [data,setData]=useState<Array<PetType>>([])
+  const petRef=useRef<HTMLFormElement|null>(null)
   const fetchData=async()=>{
     const dat=await fetch('/details/api/PET')
     const js=await dat.json()
@@ -25,6 +26,43 @@ function PetTable() {
   useEffect(()=>{
     fetchData()
   },[])
+
+  const handleSubmitPet = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (petRef.current) {
+        const formData = new FormData(petRef.current);
+        try {
+            const response = await fetch('/details/api/PET', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    PET_ID: formData.get('PET_ID'),
+                    NAME: formData.get('NAME'),
+                    TYPE: formData.get('TYPE'),
+                    AGE: formData.get('AGE'),
+                    VACCINATION: formData.get('VACCINATION'),
+                    GENDER: formData.get('GENDER'),
+                    LOCATION: formData.get('LOCATION'),
+                    SEVERITY: formData.get('SEVERITY'),
+                    DESCRIPTION: formData.get('DESCRIPTION'),
+                    CID: formData.get('CID'),
+                    PCARE: formData.get('PCARE'),
+                    V_ID: formData.get('V_ID'),
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add entry');
+            }
+
+            await fetchData(); // Refresh data after submission
+        } catch (error) {
+            console.error('Error adding pet:', error);
+        }
+    }
+};
   
   return (
     <div className='mx-4 my-4'>
@@ -68,19 +106,19 @@ function PetTable() {
         </table>
         <div className='text-white text-xl font-bold my-2'>ADD PET</div>
       
-        <form className="flex flex-wrap space-x-4 space-y-2 mb-4">
-            <input type="number" placeholder="Pet ID" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Type" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Age" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Vaccination" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Gender" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Location" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Severity" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="Description" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
-            <input type="text" placeholder="PCARE" className="border rounded p-2 flex-1" required />
-            <input type="number" placeholder="Volunteer ID" className="border rounded p-2 flex-1" />
+        <form className="flex flex-wrap space-x-4 space-y-2 mb-4" ref={petRef} onSubmit={handleSubmitPet}>
+            <input name='PET_ID' type="number" placeholder="Pet ID" className="border rounded p-2 flex-1" required />
+            <input name='NAME' type="text" placeholder="Name" className="border rounded p-2 flex-1" required />
+            <input name='TYPE' type="text" placeholder="Type" className="border rounded p-2 flex-1" required />
+            <input name='AGE' type="number" placeholder="Age" className="border rounded p-2 flex-1" required />
+            <input name='VACCINATION' type="text" placeholder="Vaccination" className="border rounded p-2 flex-1" required />
+            <input name='GENDER' type="text" placeholder="Gender" className="border rounded p-2 flex-1" required />
+            <input name='LOCATION' type="text" placeholder="Location" className="border rounded p-2 flex-1" required />
+            <input name='SEVERITY' type="text" placeholder="Severity" className="border rounded p-2 flex-1" required />
+            <input name='DESCRIPTION' type="text" placeholder="Description" className="border rounded p-2 flex-1" required />
+            <input name='CID' type="number" placeholder="Center ID" className="border rounded p-2 flex-1" required />
+            <input name='PCARE' type="text" placeholder="PCARE" className="border rounded p-2 flex-1" required />
+            <input name='V_ID' type="number" placeholder="Volunteer ID" className="border rounded p-2 flex-1" />
             <button type="submit" className="bg-blue-500 text-white rounded p-2 flex-none">ADD PET</button>
         </form>
 
