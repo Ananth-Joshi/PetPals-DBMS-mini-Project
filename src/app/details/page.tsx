@@ -25,7 +25,6 @@ function page() {
   useEffect(()=>{
     isLoggedIn()
   },[])
-  console.log(table)
   return (
     <div>
       <SelectTable setTable={setTable}/>

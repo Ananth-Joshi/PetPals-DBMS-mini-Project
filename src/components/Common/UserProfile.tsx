@@ -27,10 +27,14 @@ const UserProfile= () => {
     }
 
     const getUser=async()=>{
-        const data=await fetch('/api/authverify')
-        const js=await data.json()
-        console.log(js)
-        setUser({email:js.user.email,CID:js.user.CID})
+        try{
+            const data=await fetch('/api/authverify')
+            const js=await data.json()
+            console.log(js)
+            setUser({email:js.user.email,CID:js.user.CID})
+        }catch(e){
+            console.error('Not verified:'+e)
+        }
     }
 
     useEffect(()=>{
