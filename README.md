@@ -66,7 +66,11 @@ To run the PetPals application, follow these steps:
 ![image](https://github.com/user-attachments/assets/09dc130f-b1f8-4ec4-a581-3a241a616607)
 ![image](https://github.com/user-attachments/assets/2b28742c-a7b1-45ce-abdc-c7a1202ade03)
 
-
-
+## Tech Stack Used
+- **NextJS**
+- **TailwindCSS**
+- **TypeScript**
+- **MySQL**
+- **JSON Web Token(JWT)**
 
 
