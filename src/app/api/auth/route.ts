@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 import { dbconfig } from '@/config/dbconfig';
-import { redirect } from 'next/navigation';
+
 
 const SECRET_KEY:string|any = process.env.JWT_SECRET // Use an environment variable for production
 
