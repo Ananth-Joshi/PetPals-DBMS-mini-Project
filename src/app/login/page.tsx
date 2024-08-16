@@ -28,7 +28,7 @@ function page() {
 
   return (
    <div className="flex-col gap-16 h-screen overflow-hidden flex -top-28 relative items-center justify-center">
-    <div className='text-white text-6xl text-center font-bold'>CENTER ADMIN? LOGIN NOW!!!</div>
+    <div className='text-white text-6xl text-center'>CENTER ADMIN? LOGIN NOW!!!</div>
     <div className="bg-white lg:w-6/12 md:7/12 w-8/12 shadow-3xl rounded-xl">
       <div className="bg-gray-800 shadow shadow-gray-200 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full p-4 md:p-8">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="#FFF">
